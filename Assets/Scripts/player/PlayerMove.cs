@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class PlayerMove : MonoBehaviour
 {
@@ -32,15 +33,33 @@ public class PlayerMove : MonoBehaviour
 	private float ungroundedTime;
 	private bool setUngTime = false;
 
-    private void Start()
+	// assign the actions asset to this field in the inspector:
+	public InputActionAsset actions;
+
+	// private field to store move action reference
+	public InputAction moveAction;
+
+	private void Start()
     {
 		doubleJump = FindObjectOfType<dontDestroySave>().itemsGotten[2];
 		rb = GetComponent<Rigidbody2D>();
 		anim = spriteChild.GetComponent<Animator>();
-    }
 
-	// Update is called once per frame
-	void Update()
+		// find the "move" action, and keep the reference to it, for use in Update
+		moveAction = actions.FindActionMap("gameplay").FindAction("move");
+
+		// for the "jump" action, we add a callback method for when it is performed
+		actions.FindActionMap("gameplay").FindAction("jump").performed += Jump;
+	}
+
+    private void OnDisable()
+    {
+		// for the "jump" action, we add a callback method for when it is performed
+		actions.FindActionMap("gameplay").FindAction("jump").performed -= Jump;
+	}
+
+    // Update is called once per frame
+    void Update()
     {
 		//stretchAndSquish
 		if (!grounded && !Mathf.Approximately(rb.velocity.y, 0f) && (Time.time - ungroundedTime) > 0.05f)
@@ -95,26 +114,11 @@ public class PlayerMove : MonoBehaviour
     	//CONTROLS
     	if(canWalk)
 		{
-			moveX = Input.GetAxis("Horizontal");
-			if (Input.GetButtonDown ("Jump") && grounded && !storedJump)
-			{
-				Jump();
-            }
-            else if(Input.GetButtonDown("Jump") && !grounded && !storedJump)
-            {
-				storedJump = true;
-				timer2 = Time.time;
-            }
-			else if (grounded && storedJump)
+			moveX = moveAction.ReadValue<Vector2>().x;
+			if (grounded && storedJump)
 			{
 				Jump();
 				storedJump = false;
-			}
-			if(Input.GetButtonDown("Jump") && !grounded && doubleJumpStored && doubleJump)
-            {
-				Jump();
-				doubleJumpStored = false;
-				Instantiate(doubleJumpPlatform, transform.position - new Vector3(0f, 0.5f), Quaternion.identity);
 			}
 		}
     	//ANIMATIONS
@@ -164,11 +168,29 @@ public class PlayerMove : MonoBehaviour
         }
 	}
 
-    void Jump()
+    private void Jump(InputAction.CallbackContext context = new InputAction.CallbackContext())
     {
-    	//JUMPING CODE
-		rb.velocity = new Vector2(rb.velocity.x, 0);
-    	rb.AddForce(Vector2.up * playerJumpPower);
+		if (grounded && !storedJump)
+		{
+			//JUMPING CODE
+			rb.velocity = new Vector2(rb.velocity.x, 0);
+			rb.AddForce(Vector2.up * playerJumpPower);
+		}
+		else if (!grounded && !storedJump)
+		{
+			storedJump = true;
+			timer2 = Time.time;
+		}
+		
+		if (!grounded && doubleJumpStored && doubleJump)
+		{
+			//JUMPING CODE
+			rb.velocity = new Vector2(rb.velocity.x, 0);
+			rb.AddForce(Vector2.up * playerJumpPower);
+
+			doubleJumpStored = false;
+			Instantiate(doubleJumpPlatform, transform.position - new Vector3(0f, 0.5f), Quaternion.identity);
+		}
     }
 
 	public void Immobilize()

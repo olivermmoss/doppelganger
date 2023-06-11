@@ -30,8 +30,10 @@ public class dynamite : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         rend.sprite = sprites[3];
         yield return new WaitForSeconds(0.5f);
+        gameObject.GetComponent<AudioSource>().Play();
         iTween.ValueTo(gameObject, iTween.Hash("from", 1f, "to", 0f, "time", 1f, "onupdate", "UpdatePanelColor"));
         GetComponent<SpriteRenderer>().enabled = false;
+        GameObject.FindGameObjectWithTag("save").GetComponent<dontDestroySave>().cutscenesWatched[2] = true;
         var boxes = GetComponents<BoxCollider2D>();
         foreach(var box in boxes)
         {
@@ -44,6 +46,17 @@ public class dynamite : MonoBehaviour
     private void Start()
     {
         rend = GetComponent<SpriteRenderer>();
+        if(GameObject.FindGameObjectWithTag("save").GetComponent<dontDestroySave>().cutscenesWatched[2])
+        {
+            GetComponent<SpriteRenderer>().enabled = false;
+            var boxes = GetComponents<BoxCollider2D>();
+            foreach (var box in boxes)
+            {
+                box.enabled = false;
+            }
+            Destroy(transform.GetChild(1).gameObject);
+            Destroy(transform.GetChild(0).gameObject);
+        }
     }
 
     void UpdatePanelColor(float alpha)

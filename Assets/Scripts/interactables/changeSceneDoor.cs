@@ -13,6 +13,9 @@ public class changeSceneDoor : baseInteractable
 
     public override void Activate()
     {
+        print("change scene");
+        print(gameObject.name);
+
         dontDestroySave save = GameObject.FindGameObjectWithTag("save").GetComponent<dontDestroySave>();
 
         var wipe = GameObject.FindGameObjectWithTag("screenWipe").GetComponent<screenWipeController>();

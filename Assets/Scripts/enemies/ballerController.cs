@@ -14,10 +14,14 @@ public class ballerController : MonoBehaviour
     public float animOffset;
     private GameObject player;
 
+    private AudioSource src;
+
     private void DropSnowball()
     {
         if (Vector2.Distance(player.transform.position, gameObject.transform.position) < aggroDistance)
         {
+            print("drop");
+            src.Play();
             anim.SetTrigger("drop");
             Invoke("Instan", animOffset);
         }
@@ -27,6 +31,7 @@ public class ballerController : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player");
         InvokeRepeating("DropSnowball", 0f, cooldown);
+        src = gameObject.GetComponent<AudioSource>();
     }
 
     void Instan()

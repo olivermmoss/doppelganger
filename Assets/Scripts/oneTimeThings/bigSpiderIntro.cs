@@ -22,7 +22,7 @@ public class bigSpiderIntro : MonoBehaviour
             player = collision.gameObject;
 
             player.GetComponent<PlayerMove>().canMove = false;
-            player.GetComponent<playerAttack>().enabled = false;
+            player.GetComponent<playerAttack>().canAttack = false;
 
             theAM.StopBGM();
             gameObject.GetComponent<BoxCollider2D>().enabled = false;
@@ -59,7 +59,7 @@ public class bigSpiderIntro : MonoBehaviour
         yield return new WaitForSeconds(breakTime);
         theAM.ChangeBGM(bossMusic);
         player.GetComponent<PlayerMove>().canMove = true;
-        player.GetComponent<playerAttack>().enabled = true;
+        player.GetComponent<playerAttack>().canAttack = true;
         FindObjectOfType<dontDestroySave>().bossQuick = true;
         head.gameObject.GetComponent<bigSpiderController>().SpiderCrawlAttack();
         head.gameObject.GetComponent<bigSpiderController>().timer3 = Time.time;
@@ -77,7 +77,7 @@ public class bigSpiderIntro : MonoBehaviour
         yield return new WaitForSeconds(breakTime * 2);
         theAM.ChangeBGM(bossMusic);
         player.GetComponent<PlayerMove>().canMove = true;
-        player.GetComponent<playerAttack>().enabled = true;
+        player.GetComponent<playerAttack>().canAttack = true;
         head.gameObject.GetComponent<bigSpiderController>().SpiderCrawlAttack();
         head.gameObject.GetComponent<bigSpiderController>().timer3 = Time.time;
         head.gameObject.GetComponent<bigSpiderController>().upAndDownTime = Random.value * 10 + 5;

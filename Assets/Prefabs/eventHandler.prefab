@@ -63,6 +63,8 @@ MonoBehaviour:
   playerMaxHealth: 3
   player: {fileID: 0}
   playerDead: 0
-  quickStart: 1
+  quickStart: 0
   timeToTextScroll: 0.05
   wipeTIme: 0.5
+  verticalWipe: 0
+  wipePosDiff: 0

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class playerFire : MonoBehaviour
 {
@@ -16,22 +17,37 @@ public class playerFire : MonoBehaviour
     public GameObject firePrefab;
     public AudioSource readySource;
 
+    private InputActionAsset actions;
+
     void Start()
     {
         fireIcon.sprite = iconSprites[1];
         fireIcon.fillAmount = Mathf.Lerp(0.125f, 0.875f, charge) - 0.02f;
+
+        actions = gameObject.GetComponent<PlayerMove>().actions;
+        actions.FindActionMap("gameplay").FindAction("fireball").performed += ShootFire;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void ShootFire(InputAction.CallbackContext context = new InputAction.CallbackContext())
     {
-        if(Input.GetKeyDown(KeyCode.A) && charge >= 1)
+        if(charge >= 1)
         {
             Instantiate(firePrefab, gameObject.transform.position, Quaternion.Euler(new Vector3(0, 0, gameObject.transform.localScale.x > 0 ? 270 : 90)));
             charge = 0;
             blinked = false;
             draining = 1;
         }
+    }
+
+    private void OnDisable()
+    {
+        // for the "jump" action, we add a callback method for when it is performed
+        actions.FindActionMap("gameplay").FindAction("fireball").performed -= ShootFire;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
         if (charge < 1)
         {
             
@@ -53,8 +69,11 @@ public class playerFire : MonoBehaviour
             if(!blinked)
             {
                 //sets to white
-                readySource.Play();
-                fireIcon.sprite = iconSprites[0];
+                if (Time.timeSinceLevelLoad > 0.1f)
+                {
+                    readySource.Play();
+                    fireIcon.sprite = iconSprites[0];
+                }
                 blinked = true;
                 whiteTimer = Time.time + 0.2f;
             }

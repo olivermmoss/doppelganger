@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class pauseMenuController : MonoBehaviour
 {
@@ -9,10 +10,13 @@ public class pauseMenuController : MonoBehaviour
     private Image panel;
     public GameObject itemMenu;
     public Sprite emptyItem;
+    public GameObject optionsMenu;
     [SerializeField]
     private Sprite[] items = new Sprite[6];
     public bool paused = false;
     public float transTime;
+
+    private InputActionAsset actions;
 
     private void Start()
     {
@@ -21,16 +25,22 @@ public class pauseMenuController : MonoBehaviour
         {
             items[i] = itemMenu.transform.GetChild(i).GetComponent<Image>().sprite;
         }
+
+        actions = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMove>().actions;
+        actions.FindActionMap("gameplay").FindAction("pause").performed += PauseUnpause;
     }
-    void Update()
+    void PauseUnpause(InputAction.CallbackContext context = new InputAction.CallbackContext())
     {
-        if(Input.GetButtonDown("Cancel"))
-        {
-            if (paused)
-                MenuUp();
-            else
-                MenuDown();
-        }
+        if (paused)
+            MenuUp();
+        else
+            MenuDown();
+    }
+
+    private void OnDisable()
+    {
+        // for the "jump" action, we add a callback method for when it is performed
+        actions.FindActionMap("gameplay").FindAction("pause").performed -= PauseUnpause;
     }
 
     void MenuDown()
@@ -87,11 +97,70 @@ public class pauseMenuController : MonoBehaviour
                 "islocal", true,
                 "ignoretimescale", true
             ));
+        iTween.MoveTo(optionsMenu, iTween.Hash(
+                "y", -512f,
+                "time", transTime,
+                "easetype", "easeInSine",
+                "islocal", true,
+                "ignoretimescale", true
+            ));
         iTween.ValueTo(gameObject, iTween.Hash("from", panel.color.a, "to", 0f, "time", transTime, "onupdate", "UpdatePanelColor", "ignoretimescale", true));
     }
 
     void UpdatePanelColor(float alpha)
     {
         panel.color = new Vector4(0, 0, 0, alpha);
+    }
+
+    public void OptionsUp()
+    {
+        iTween.MoveTo(itemMenu, iTween.Hash(
+                "x", 640f,
+                "y", 0f,
+                "time", transTime,
+                "easetype", "easeInSine",
+                "islocal", true,
+                "ignoretimescale", true
+            ));
+        iTween.MoveTo(gameObject, iTween.Hash(
+                "y", 512f,
+                "time", transTime,
+                "easetype", "easeOutSine",
+                "islocal", true,
+                "ignoretimescale", true
+            ));
+        iTween.MoveTo(optionsMenu, iTween.Hash(
+                "y", 0f,
+                "time", transTime,
+                "easetype", "easeOutSine",
+                "islocal", true,
+                "ignoretimescale", true
+            ));
+    }
+
+    public void OptionsAway()
+    {
+        iTween.MoveTo(itemMenu, iTween.Hash(
+                "x", 272f,
+                "y", 0f,
+                "time", transTime,
+                "easetype", "easeOutSine",
+                "islocal", true,
+                "ignoretimescale", true
+            ));
+        iTween.MoveTo(gameObject, iTween.Hash(
+                "y", 0f,
+                "time", transTime,
+                "easetype", "easeOutSine",
+                "islocal", true,
+                "ignoretimescale", true
+            ));
+        iTween.MoveTo(optionsMenu, iTween.Hash(
+                "y", -512f,
+                "time", transTime,
+                "easetype", "easeOutSine",
+                "islocal", true,
+                "ignoretimescale", true
+            ));
     }
 }

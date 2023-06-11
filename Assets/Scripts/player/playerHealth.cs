@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class playerHealth : MonoBehaviour
 {
@@ -23,6 +24,8 @@ public class playerHealth : MonoBehaviour
     public float dieDepth = -100;
     public bool invincible = false;
 
+    private InputActionAsset actions;
+
     void Start()
     {
         if(health == 10)
@@ -37,12 +40,23 @@ public class playerHealth : MonoBehaviour
         }
 
         UpdateHearts();
+
+        actions = gameObject.GetComponent<PlayerMove>().actions;
+        actions.FindActionMap("gameplay").FindAction("attack").performed += TryReset;
     }
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.X) && dead)
-		{
+        if(gameObject.transform.position.y <= dieDepth && !invincible)
+        {
+            Die();
+        }
+    }
+
+    private void TryReset(InputAction.CallbackContext context = new InputAction.CallbackContext())
+    {
+        if (dead)
+        {
             GameObject.FindGameObjectWithTag("save").GetComponent<dontDestroySave>().playerDead = true;
             if (GameObject.FindGameObjectWithTag("save").GetComponent<dontDestroySave>().stasisScene != null && GameObject.FindGameObjectWithTag("save").GetComponent<dontDestroySave>().stasisScene != "")
             {
@@ -52,12 +66,13 @@ public class playerHealth : MonoBehaviour
             {
                 SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             }
-		}
-
-        if(gameObject.transform.position.y <= dieDepth && !invincible)
-        {
-            Die();
         }
+    }
+
+    private void OnDisable()
+    {
+        // for the "jump" action, we add a callback method for when it is performed
+        actions.FindActionMap("gameplay").FindAction("attack").performed -= TryReset;
     }
 
     public void TakeDamage(int damage, GameObject damager)

@@ -7,11 +7,18 @@ public class wastelandBat : baseEnemy
     public float speed = 5;
     public int aggroDistance = 20;
     private float hitTime;
+    private PlayerMove pm;
+
+    public override void Start()
+    {
+        base.Start();
+        pm = player.GetComponent<PlayerMove>();
+    }
 
     //ai: chase after player, face player, turn around, all that good stuff
     void Update()
     {
-        if(Vector2.Distance(player.transform.position, gameObject.transform.position) > aggroDistance || dead)
+        if(Vector2.Distance(player.transform.position, gameObject.transform.position) > aggroDistance || dead || !pm.canMove)
         {
             return;
         }

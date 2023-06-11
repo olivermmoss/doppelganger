@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class baseInteractable : MonoBehaviour
 {
@@ -10,11 +11,22 @@ public class baseInteractable : MonoBehaviour
     public bool active = false;
     //we only mess with used in some programs, otherwise it's always false so it's inconsequential
 
+    private InputActionAsset actions;
+
+    private void Awake()
+    {
+        iTween.Init(eButton);
+    }
+
     public virtual void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         eButton.SetActive(true);
+        
         iTween.FadeTo(eButton, 0f, 0.001f);
+
+        actions = player.GetComponent<PlayerMove>().actions;
+        actions.FindActionMap("gameplay").FindAction("interact").performed += SubActivate;
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -37,16 +49,23 @@ public class baseInteractable : MonoBehaviour
         }
     }
 
-    void Update()
+
+    public virtual void Activate()
     {
-        if (Input.GetKeyDown(KeyCode.E) && active)
+        //override this please
+    }
+
+    private void SubActivate(InputAction.CallbackContext context = new InputAction.CallbackContext())
+    {
+        if (active && !player.GetComponent<playerHealth>().dead)
         {
             Activate();
         }
     }
 
-    public virtual void Activate()
+    private void OnDisable()
     {
-        //override this please
+        // for the "jump" action, we add a callback method for when it is performed
+        actions.FindActionMap("gameplay").FindAction("interact").performed -= SubActivate;
     }
 }

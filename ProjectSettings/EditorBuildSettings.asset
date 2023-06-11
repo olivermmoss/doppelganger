@@ -9,14 +9,14 @@ EditorBuildSettings:
     path: Assets/Scenes/DarkCastle.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
+    path: Assets/Scenes/BigSpider.unity
+    guid: b8fd64ffbb93c9342a6920580cb6c83c
+  - enabled: 1
     path: Assets/Scenes/Wasteland1.unity
     guid: 9c167a2956c50694ab03a69d3ce56ad9
   - enabled: 1
     path: Assets/Scenes/WastelandCaves.unity
     guid: 5fb99a067fc5050419be6b7542a4bf11
-  - enabled: 1
-    path: Assets/Scenes/BigSpider.unity
-    guid: b8fd64ffbb93c9342a6920580cb6c83c
   - enabled: 1
     path: Assets/Scenes/Mountain1.unity
     guid: 7ce27f654ba524045acffa565bdd1c83
@@ -35,9 +35,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Jungle1.unity
     guid: b4d427e3ae9c1994a9d01d49c03e9c2d
-  - enabled: 1
-    path: Assets/Scenes/BirthdayThing.unity
-    guid: c1df3a8a1783edf4383fafb18a98263e
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/Scenes/Jungle3.unity
     guid: fe5dda1cca2a5ec419f6fdc2a77a3156
@@ -47,4 +47,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ShroomCaves1.unity
     guid: dfba704f543b32a4892727fa8f3e45e9
+  - enabled: 1
+    path: Assets/Scenes/Jungle4.unity
+    guid: 109f8531a0932db45b0a77cb799a9f89
   m_configObjects: {}

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Ink.Runtime;
+using UnityEngine.InputSystem;
 
 public class dialogueManager : MonoBehaviour
 {
@@ -27,6 +28,8 @@ public class dialogueManager : MonoBehaviour
     public Animator layoutAnimator;
     public AudioSource source;
 
+    private InputActionAsset actions;
+
     private void Awake()
     {
         if(instance != null)
@@ -47,6 +50,10 @@ public class dialogueManager : MonoBehaviour
     private void Start()
     {
         save = GameObject.FindGameObjectWithTag("save").GetComponent<dontDestroySave>();
+
+        actions = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMove>().actions;
+        actions.FindActionMap("dialogue").FindAction("continue").performed += ContinueStory;
+        actions.FindActionMap("dialogue").FindAction("exit").performed += ExitDialogueMode;
     }
 
     public static dialogueManager GetInstance()
@@ -56,6 +63,15 @@ public class dialogueManager : MonoBehaviour
 
     public void EnterDialogueMode(TextAsset inkJson, dialogueTrigger trig = null, talkingCutsceneTrigger trig2 = null)
     {
+        if(dialogueIsPlaying)
+        {
+            return;
+        }
+
+        print("enter dialogue mode");
+
+        player.GetComponent<PlayerInput>().SwitchCurrentActionMap("dialogue");
+
         thisTrig = trig;
         thisTrig2 = trig2;
         currentStory = new Story(inkJson.text);
@@ -71,8 +87,13 @@ public class dialogueManager : MonoBehaviour
         ContinueStory();    
     }
 
-    private void ExitDialogueMode()
+    private void ExitDialogueMode(InputAction.CallbackContext context = new InputAction.CallbackContext())
     {
+        if (!dialogueIsPlaying)
+        {
+            return;
+        }
+
         dialogueIsPlaying = false;
         dialoguePanel.SetActive(false);
         dialogueText.text = "";
@@ -81,26 +102,25 @@ public class dialogueManager : MonoBehaviour
             healthIcon.SetActive(true);
         }
         player.GetComponent<PlayerMove>().canMove = true;
-        print("exited");
         typing = false;
+        player.GetComponent<PlayerInput>().SwitchCurrentActionMap("gameplay");
+
+        StopAllCoroutines();
     }
 
     private void Update()
     {
-        if(!dialogueIsPlaying)
+        print(player.GetComponent<PlayerInput>().currentActionMap.name);
+    }
+
+    void ContinueStory(InputAction.CallbackContext context = new InputAction.CallbackContext())
+    {
+        if (!dialogueIsPlaying)
         {
             return;
         }
 
-        if(Input.GetKeyDown(KeyCode.Return))
-        {
-            ContinueStory();
-        }
-    }
-
-    void ContinueStory()
-    {
-        if(currentStory.canContinue && !typing)
+        if (currentStory.canContinue && !typing)
         {
             StartCoroutine(TypeSentence(currentStory.Continue()));
             HandleTags(currentStory.currentTags);
@@ -115,6 +135,12 @@ public class dialogueManager : MonoBehaviour
         {
             ExitDialogueMode();
         }
+    }
+
+    private void OnDisable()
+    {
+        // for the "jump" action, we add a callback method for when it is performed
+        actions.FindActionMap("dialogue").FindAction("continue").performed -= ContinueStory;
     }
 
     private void HandleTags(List<string> currentTags)

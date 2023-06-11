@@ -37,7 +37,7 @@ public class dontDestroySave : MonoBehaviour
     public float timeToTextScroll = 0.1f;
 
     AsyncOperation asyncLoad;
-    bool bLoadDone;
+    bool loadingScene = false;
     public float wipeTIme = 1;
     float wipeTimer;
     public bool verticalWipe;
@@ -45,8 +45,7 @@ public class dontDestroySave : MonoBehaviour
 
     void DoThings()
     {
-        //print("do things");
-        bLoadDone = false;
+        loadingScene = false;
 
         if (quickStart)
         {
@@ -208,6 +207,10 @@ public class dontDestroySave : MonoBehaviour
 
     public void ChangeScene(string doorExit, Vector2 _NewScenePos, bool _facingRight, Vector2 _camMins, Vector2 _camMaxes)
     {
+        if (loadingScene)
+            return;
+        loadingScene = true;
+
         playerHealth = player.GetComponent<playerHealth>().health;
         if(itemsGotten[1])
         {
@@ -237,6 +240,5 @@ public class dontDestroySave : MonoBehaviour
             }
             yield return null;
         }
-        bLoadDone = asyncLoad.isDone;
     }
 }

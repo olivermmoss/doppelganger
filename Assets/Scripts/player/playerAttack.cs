@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class playerAttack : MonoBehaviour
 {
@@ -16,17 +17,10 @@ public class playerAttack : MonoBehaviour
     private float nextAttackTime = 0;
     private float doneAttackTime = 0;
     private Vector3 pointPos;
+    public bool canAttack = true;
 
     void Update()
     {
-        if(Time.time >= nextAttackTime)
-        {
-            if(Input.GetKeyDown(KeyCode.X))
-            {
-                Slash();
-                nextAttackTime = Time.time + 1/attackRate;
-            }
-        }
         if(Time.time >= doneAttackTime)
         {
             attackTrigger.enabled = false;
@@ -35,8 +29,11 @@ public class playerAttack : MonoBehaviour
         }
     }
 
-    void Slash()
+    private void Slash(InputAction.CallbackContext context = new InputAction.CallbackContext())
     {
+        if (Time.time < nextAttackTime || !canAttack)
+            return;
+
         attackTrigger.gameObject.transform.localPosition = pointPos;
 
         animator.SetTrigger("slash");
@@ -47,24 +44,22 @@ public class playerAttack : MonoBehaviour
 
         attackTrigger.gameObject.GetComponent<AudioSource>().Play();
 
-        /*Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
-
-        foreach(Collider2D enemy in hitEnemies)
-        {
-            enemy.GetComponent<enemyController>().TakeDamage(attackDamage);
-        }*/
+        nextAttackTime = Time.time + 1/attackRate;
     }
-
-    /*private void OnDrawGizmosSelected()
-    {
-        if(attackPoint == null)
-            return;
-        
-        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
-    }*/
 
     private void Awake()
     {
         pointPos = attackTrigger.gameObject.transform.localPosition;
+    }
+
+    void Start()
+    {
+        gameObject.GetComponent<PlayerMove>().actions.FindActionMap("gameplay").FindAction("attack").performed += Slash;
+    }
+
+    private void OnDisable()
+    {
+        // for the "jump" action, we add a callback method for when it is performed
+        gameObject.GetComponent<PlayerMove>().actions.FindActionMap("gameplay").FindAction("attack").performed -= Slash;
     }
 }
