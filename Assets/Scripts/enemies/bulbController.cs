@@ -8,6 +8,7 @@ public class bulbController : baseEnemy
     private bool inAir;
     private float timer;
     public Vector2 jumpForce;
+    private PlayerMove pm;
 
     // Update is called once per frame
     void Update()
@@ -39,17 +40,20 @@ public class bulbController : baseEnemy
 
     void Jump()
     {
-        inAir = true;
-        animator.SetBool("inAir", true);
-        rb.bodyType = RigidbodyType2D.Dynamic;
-        float diff = player.transform.position.x - transform.position.x;
-        if (diff >= 0)
+        if (pm.canMove)
         {
-            rb.AddForce(Vector2.up * jumpForce.y + Vector2.right * Mathf.Clamp(40f * diff, 0, jumpForce.x));
-        }
-        else
-        {
-            rb.AddForce(Vector2.up * jumpForce.y - Vector2.right * Mathf.Clamp(40f * -diff, 0, jumpForce.x));
+            inAir = true;
+            animator.SetBool("inAir", true);
+            rb.bodyType = RigidbodyType2D.Dynamic;
+            float diff = player.transform.position.x - transform.position.x;
+            if (diff >= 0)
+            {
+                rb.AddForce(Vector2.up * jumpForce.y + Vector2.right * Mathf.Clamp(40f * diff, 0, jumpForce.x));
+            }
+            else
+            {
+                rb.AddForce(Vector2.up * jumpForce.y - Vector2.right * Mathf.Clamp(40f * -diff, 0, jumpForce.x));
+            }
         }
         timer = Time.time;
     }
@@ -68,6 +72,12 @@ public class bulbController : baseEnemy
     {
         rb = GetComponent<Rigidbody2D>();
         timer = Time.time;
+    }
+
+    public override void Start()
+    {
+        base.Start();
+        pm = player.GetComponent<PlayerMove>();
     }
 
     public override void OnCollisionEnter2D(Collision2D other)

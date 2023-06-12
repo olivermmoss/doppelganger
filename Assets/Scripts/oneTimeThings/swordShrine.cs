@@ -28,10 +28,11 @@ public class swordShrine : MonoBehaviour
                 GameObject.FindGameObjectWithTag("Player").GetComponent<playerAttack>().enabled = true;
                 break;
             case "fireball":
+                print(yayOrNay);
+
                 GameObject.FindGameObjectWithTag("Player").GetComponent<playerFire>().enabled = true;
                 activateThis.gameObject.SetActive(true);
-                if (!yayOrNay)
-                    activateThis.transform.GetChild(0).gameObject.SetActive(true);
+                activateThis.transform.GetChild(0).gameObject.SetActive(true);
                 break;
             case "doubleJump":
                 GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMove>().doubleJump = true;

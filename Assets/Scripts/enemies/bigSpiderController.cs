@@ -43,10 +43,9 @@ public class bigSpiderController : MonoBehaviour
         upAndDownTime = Random.value * 10 + 5;
         timer3 = 9999999;
     }
-    private void OnTriggerEnter2D(Collider2D collision)
+
+    public void TakeDamage()
     {
-        if (collision.CompareTag("playerAttack") && Time.time > timer + 0.1f && up && !dead)
-        {
             timer = Time.time;
             hp -= player.GetComponent<playerAttack>().attackDamage;
 
@@ -103,6 +102,12 @@ public class bigSpiderController : MonoBehaviour
             {
                 anim.SetTrigger("hit");
             }
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("playerAttack") && Time.time > timer + 0.1f && up && !dead)
+        {
+            TakeDamage();
         }
     }
 

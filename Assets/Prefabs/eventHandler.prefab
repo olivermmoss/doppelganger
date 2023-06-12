@@ -48,7 +48,7 @@ MonoBehaviour:
   stasisMaxes: {x: 0, y: 0}
   stasisMins: {x: 0, y: 0}
   gustavKilled: 0
-  itemsGotten: 00000000000000000000
+  itemsGotten: 01000000000000000000
   bossesKilled: 00000000000000000000
   cutscenesWatched: 00000000000000000000
   skullGate: 00000000000000000000
@@ -64,7 +64,7 @@ MonoBehaviour:
   player: {fileID: 0}
   playerDead: 0
   quickStart: 0
-  timeToTextScroll: 0.05
+  timeToTextScroll: 0.02
   wipeTIme: 0.5
   verticalWipe: 0
   wipePosDiff: 0

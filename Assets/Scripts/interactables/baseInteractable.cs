@@ -9,6 +9,7 @@ public class baseInteractable : MonoBehaviour
     public GameObject eButton;
     public bool used = false;
     public bool active = false;
+    private bool attachedAction = false;
     //we only mess with used in some programs, otherwise it's always false so it's inconsequential
 
     private InputActionAsset actions;
@@ -27,6 +28,7 @@ public class baseInteractable : MonoBehaviour
 
         actions = player.GetComponent<PlayerMove>().actions;
         actions.FindActionMap("gameplay").FindAction("interact").performed += SubActivate;
+        attachedAction = true;
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -65,7 +67,7 @@ public class baseInteractable : MonoBehaviour
 
     private void OnDisable()
     {
-        // for the "jump" action, we add a callback method for when it is performed
-        actions.FindActionMap("gameplay").FindAction("interact").performed -= SubActivate;
+        if(attachedAction)
+            actions.FindActionMap("gameplay").FindAction("interact").performed -= SubActivate;
     }
 }

@@ -25,6 +25,7 @@ public class spiderLegController : baseEnemy
         {
             timer = Time.time;
             currentHealth -= player.GetComponent<playerAttack>().attackDamage;
+            boss.TakeDamage();
             anim.SetTrigger("hit");
 
             if (currentHealth <= 0)

@@ -68,8 +68,6 @@ public class dialogueManager : MonoBehaviour
             return;
         }
 
-        print("enter dialogue mode");
-
         player.GetComponent<PlayerInput>().SwitchCurrentActionMap("dialogue");
 
         thisTrig = trig;
@@ -106,11 +104,6 @@ public class dialogueManager : MonoBehaviour
         player.GetComponent<PlayerInput>().SwitchCurrentActionMap("gameplay");
 
         StopAllCoroutines();
-    }
-
-    private void Update()
-    {
-        print(player.GetComponent<PlayerInput>().currentActionMap.name);
     }
 
     void ContinueStory(InputAction.CallbackContext context = new InputAction.CallbackContext())
