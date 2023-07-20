@@ -45,7 +45,7 @@ TextureImporter:
       213: -2756949003066364721
     second: caveSpider_6
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -65,6 +65,8 @@ TextureImporter:
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -74,8 +76,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -96,10 +98,14 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
   applyGammaDecoding: 0
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -149,6 +155,18 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -168,7 +186,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 9440c669b7ed3b960800000000000000
-      internalID: 7616676017199645769
+      internalID: 1671259768589607306
       vertices: []
       indices: 
       edges: []
@@ -189,7 +207,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: e05678d44b4f245a0800000000000000
-      internalID: -6538394653756529394
+      internalID: -8889184598491266617
       vertices: []
       indices: 
       edges: []
@@ -210,7 +228,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 77be1cab5ebb772d0800000000000000
-      internalID: -3280947208160941193
+      internalID: -3575228037139474121
       vertices: []
       indices: 
       edges: []
@@ -231,7 +249,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: a77aa9a742d662050800000000000000
-      internalID: 5775423575592445818
+      internalID: 4356506432104089759
       vertices: []
       indices: 
       edges: []
@@ -252,7 +270,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: b49f1a6d8f809a450800000000000000
-      internalID: 6100417035095898443
+      internalID: -3565070555027642933
       vertices: []
       indices: 
       edges: []
@@ -273,7 +291,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: b72dc6ff575ae1e20800000000000000
-      internalID: 3323275501261083259
+      internalID: -4028691711617525235
       vertices: []
       indices: 
       edges: []
@@ -294,7 +312,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: fccac581d795db9d0800000000000000
-      internalID: -2756949003066364721
+      internalID: 2819084914513553508
       vertices: []
       indices: 
       edges: []
@@ -309,6 +327,14 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      caveSpider_0: 1671259768589607306
+      caveSpider_1: -8889184598491266617
+      caveSpider_2: -3575228037139474121
+      caveSpider_3: 4356506432104089759
+      caveSpider_4: -3565070555027642933
+      caveSpider_5: -4028691711617525235
+      caveSpider_6: 2819084914513553508
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

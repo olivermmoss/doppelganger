@@ -140,6 +140,7 @@ public class bigSpiderController : MonoBehaviour
         dontDestroySave save = FindObjectOfType<dontDestroySave>();
         save.bossesKilled[0] = true;
         save.bossQuick = false;
+        save.SaveGame();
     }
 
     public void SpiderCrawlAttack()

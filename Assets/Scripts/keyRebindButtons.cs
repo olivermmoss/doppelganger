@@ -51,7 +51,10 @@ public class keyRebindButtons : MonoBehaviour
     private void RebindComplete()
     {
         rebindingOperation.Dispose();
-        
+
+        string saveBinds = actions.SaveBindingOverridesAsJson();
+        PlayerPrefs.SetString("rebinds", saveBinds);
+
         rebinding = false;
 
         GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInput>().SwitchCurrentActionMap("gameplay");
@@ -63,14 +66,12 @@ public class keyRebindButtons : MonoBehaviour
     {
         foreach (InputActionMap map in actions.actionMaps)
         {
-            foreach(InputAction action in map.actions)
-            {
-                action.RemoveAllBindingOverrides();
-            }
+            map.RemoveAllBindingOverrides();
         }
         foreach(keyRebindButtons key in FindObjectsOfType<keyRebindButtons>())
         {
             key.SetText();
         }
+        PlayerPrefs.DeleteKey("rebinds");
     }
 }

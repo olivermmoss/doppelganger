@@ -21,10 +21,10 @@ public class CameraSystem : MonoBehaviour
         if(GameObject.FindGameObjectWithTag ("Player") != null)
         {
             player = GameObject.FindGameObjectWithTag ("Player");
+            float x = Mathf.Clamp(player.transform.position.x, xMin, xMax);
+            float y = Mathf.Clamp(player.transform.position.y, yMin, yMax);
+            gameObject.transform.position = new Vector3(x, y, gameObject.transform.position.z);
         }
-        float x = Mathf.Clamp(player.transform.position.x, xMin, xMax);
-        float y = Mathf.Clamp(player.transform.position.y, yMin, yMax);
-        gameObject.transform.position = new Vector3(x, y, gameObject.transform.position.z);
 
         transform.position = ppc.RoundToPixel(transform.position);
         camPos = transform.position;

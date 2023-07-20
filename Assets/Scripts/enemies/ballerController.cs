@@ -20,7 +20,6 @@ public class ballerController : MonoBehaviour
     {
         if (Vector2.Distance(player.transform.position, gameObject.transform.position) < aggroDistance)
         {
-            print("drop");
             src.Play();
             anim.SetTrigger("drop");
             Invoke("Instan", animOffset);
@@ -37,5 +36,11 @@ public class ballerController : MonoBehaviour
     void Instan()
     {
         Instantiate(snowball, shootPoint.position, shootPoint.rotation);
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawWireSphere(gameObject.transform.position, aggroDistance);
     }
 }

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using UnityEngine.Events;
 
 public class PlayerMove : MonoBehaviour
 {
-
 	public int playerSpeed = 10;
 	public int playerJumpPower = 1250;
 	private float moveX;
@@ -32,6 +32,18 @@ public class PlayerMove : MonoBehaviour
 	[SerializeField]
 	private float ungroundedTime;
 	private bool setUngTime = false;
+	private bool jumped;
+
+	public delegate void jumpDel();
+	public jumpDel jumpDelegate;
+	public bool dash = false;
+	public float dashForce;
+	public float dashTime;
+	private bool dashing = false;
+	public float dashCooldown;
+	//public GameObject trailPrefab;
+	public ParticleSystem dashTrail;
+	private ParticleSystem.ShapeModule dashShape;
 
 	// assign the actions asset to this field in the inspector:
 	public InputActionAsset actions;
@@ -41,7 +53,9 @@ public class PlayerMove : MonoBehaviour
 
 	private void Start()
     {
-		doubleJump = FindObjectOfType<dontDestroySave>().itemsGotten[2];
+		var save = GameObject.FindGameObjectWithTag("save").GetComponent<dontDestroySave>();
+		doubleJump = save.itemsGotten[2];
+		dash = save.itemsGotten[3];
 		rb = GetComponent<Rigidbody2D>();
 		anim = spriteChild.GetComponent<Animator>();
 
@@ -50,12 +64,22 @@ public class PlayerMove : MonoBehaviour
 
 		// for the "jump" action, we add a callback method for when it is performed
 		actions.FindActionMap("gameplay").FindAction("jump").performed += Jump;
+		// for the "jump" action, we add a callback method for when it is performed
+		actions.FindActionMap("gameplay").FindAction("dash").performed += Dash;
+		dashShape = dashTrail.shape;
+	}
+
+    private void Awake()
+    {
+		jumpDelegate = ActuallyJump;
 	}
 
     private void OnDisable()
     {
 		// for the "jump" action, we add a callback method for when it is performed
 		actions.FindActionMap("gameplay").FindAction("jump").performed -= Jump;
+		// for the "jump" action, we add a callback method for when it is performed
+		actions.FindActionMap("gameplay").FindAction("dash").performed -= Dash;
 	}
 
     // Update is called once per frame
@@ -84,29 +108,23 @@ public class PlayerMove : MonoBehaviour
 		}
 
 		GroundDetection();
-		if(canMove)
+		if(canMove && !dashing)
 		{
         	Move();
 		}
-		else
+		else if(!dashing)
 		{
 			rb.velocity = new Vector2(0, rb.velocity.y);
 			moveX = 0;
 			anim.SetBool("isWalking", false);
 		}
-		if(!grounded)
-		{
-			anim.SetBool("isAirborne", true);
-		} else
-		{
-			anim.SetBool("isAirborne", false);
-		}
+
+		anim.SetBool("isAirborne", !grounded);
+
 		if(storedJump && timer2 <= Time.time - storedJumpTime)
         {
 			storedJump = false;
         }
-
-
 	}
 
     void Move()
@@ -151,7 +169,9 @@ public class PlayerMove : MonoBehaviour
 			grounded = true;
 			timer = Time.time;
 			setUngTime = false;
-		} else if(timer >= Time.time - coyoteTime)
+			jumped = false;
+
+		} else if(timer >= Time.time - coyoteTime && !jumped)
 		{
 			grounded = true;
 			doubleJumpStored = true;
@@ -170,11 +190,11 @@ public class PlayerMove : MonoBehaviour
 
     private void Jump(InputAction.CallbackContext context = new InputAction.CallbackContext())
     {
-		if (grounded && !storedJump)
+		if (grounded)
 		{
-			//JUMPING CODE
-			rb.velocity = new Vector2(rb.velocity.x, 0);
-			rb.AddForce(Vector2.up * playerJumpPower);
+			//print("normal jump");
+			jumped = true;
+			jumpDelegate();
 		}
 		else if (!grounded && !storedJump)
 		{
@@ -184,25 +204,56 @@ public class PlayerMove : MonoBehaviour
 		
 		if (!grounded && doubleJumpStored && doubleJump)
 		{
-			//JUMPING CODE
-			rb.velocity = new Vector2(rb.velocity.x, 0);
-			rb.AddForce(Vector2.up * playerJumpPower);
-
+			//print("double jump");
+			jumpDelegate();
 			doubleJumpStored = false;
 			Instantiate(doubleJumpPlatform, transform.position - new Vector3(0f, 0.5f), Quaternion.identity);
 		}
     }
 
+	void ActuallyJump()
+    {
+		//print($"jumped - storedJump: {storedJump} - grounded: {grounded} - up: {Vector2.up}");
+		rb.velocity = new Vector2(rb.velocity.x, playerJumpPower);
+		//rb.AddForce(Vector2.up * playerJumpPower);
+	}
+
 	public void Immobilize()
     {
 		canMove = false;
-		gameObject.GetComponent<playerAttack>().enabled = false;
-		gameObject.GetComponent<playerFire>().enabled = false;
+		gameObject.GetComponent<playerAttack>().canAttack = false;
+		gameObject.GetComponent<playerFire>().canFire = false;
     }
 	public void Unimmobilize()
 	{
 		canMove = true;
-		gameObject.GetComponent<playerAttack>().enabled = true;
-		gameObject.GetComponent<playerFire>().enabled = true;
+		gameObject.GetComponent<playerAttack>().canAttack = true;
+		gameObject.GetComponent<playerFire>().canFire = true;
+	}
+
+	private void Dash(InputAction.CallbackContext context = new InputAction.CallbackContext())
+	{
+		if(!(dash && canMove))
+        {
+			return;
+        }
+
+		StartCoroutine(ActuallyDash());
+	}
+
+	IEnumerator ActuallyDash()
+    {
+		dashShape.rotation = new Vector3(0, 0, 337.5f - 180 * (gameObject.transform.localScale.x + 1) / 2);
+		dashTrail.Play();
+		dash = false;
+		dashing = true;
+		rb.gravityScale = 0;
+		rb.velocity = new Vector2(gameObject.transform.localScale.x * dashForce, 0);
+        yield return new WaitForSeconds(dashTime);
+		dashTrail.Stop();
+		dashing = false;
+		rb.gravityScale = 10;
+		yield return new WaitForSeconds(dashCooldown);
+		dash = true;
 	}
 }

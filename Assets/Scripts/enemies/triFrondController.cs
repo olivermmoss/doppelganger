@@ -14,11 +14,12 @@ public class triFrondController : baseEnemy
     [SerializeField]
     private int animTime = 0;
     public GameObject proj;
+    public float aggroDistance;
 
     // Update is called once per frame
     void Update()
     {
-        if(Vector3.Distance(gameObject.transform.position, player.transform.position) < 30 && !dead)
+        if(Vector3.Distance(gameObject.transform.position, player.transform.position) < aggroDistance && !dead)
         {
             time = (Time.time * speed) % 6.28318530718f;
             cos = Mathf.Cos(time);
@@ -34,7 +35,6 @@ public class triFrondController : baseEnemy
 
             if(time > 0 && animTime == 0 && time < 0.08333333333f)
             {
-                print("got this far");
                 flowerRends[0].sprite = sprites[1];
                 animTime = 1;
             }
@@ -125,5 +125,11 @@ public class triFrondController : baseEnemy
         {
             flowerRends[i] = flowers[i].GetComponent<SpriteRenderer>();
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawWireSphere(gameObject.transform.position, aggroDistance);
     }
 }

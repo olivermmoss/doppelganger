@@ -13,6 +13,9 @@ public class statisTankController : baseInteractable
     private AudioSource source;
     public AudioClip[] clips;
     private bool sound = false;
+    public string overrideScene;
+    public Vector2 overrideCoord;
+    private bool ranStart = false;
 
     public override void Activate()
     {
@@ -24,11 +27,16 @@ public class statisTankController : baseInteractable
             source.Play();
         }
         indicatorLight.sprite = activated;
-        var save = GameObject.FindGameObjectWithTag("save").GetComponent<dontDestroySave>();
-        save.stasisScene = SceneManager.GetActiveScene().name;
-        save.stasisCoords = gameObject.transform.position;
-        save.stasisMaxes = maxes;
-        save.GetComponent<dontDestroySave>().stasisMins = mins;
+
+        if (ranStart)
+        {
+            var save = GameObject.FindGameObjectWithTag("save").GetComponent<dontDestroySave>();
+            save.stasisScene = overrideScene;
+            save.stasisCoords = overrideCoord;
+            save.stasisMaxes = maxes;
+            save.stasisMins = mins;
+            save.SaveGame();
+        }
 
         statisTankController[] tanks = FindObjectsOfType<statisTankController>();
         foreach(statisTankController tank in tanks)
@@ -49,8 +57,10 @@ public class statisTankController : baseInteractable
     public IEnumerator Respawn()
     {
         source = GetComponent<AudioSource>();
-        print("respawn");
-        Activate();
+        //print("respawn");
+        used = true;
+        indicatorLight.sprite = activated;
+
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         Animator cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Animator>();
         player.transform.GetChild(1).GetChild(0).GetComponent<SpriteRenderer>().enabled = false;
@@ -86,5 +96,20 @@ public class statisTankController : baseInteractable
     {
         base.Start();
         sound = true;
+        if (string.IsNullOrEmpty(overrideScene))
+            overrideScene = SceneManager.GetActiveScene().name;
+        if (Mathf.Approximately(0f, overrideCoord.x) && Mathf.Approximately(0f, overrideCoord.y))
+            overrideCoord = gameObject.transform.position;
+        ranStart = true;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.magenta;
+
+        Gizmos.DrawLine(new Vector2(mins.x - 12, maxes.y + 7), new Vector2(maxes.x + 12, maxes.y + 7));
+        Gizmos.DrawLine(new Vector2(maxes.x + 12, maxes.y + 7), new Vector2(maxes.x + 12, mins.y - 7));
+        Gizmos.DrawLine(new Vector2(maxes.x + 12, mins.y - 7), new Vector2(mins.x - 12, mins.y - 7));
+        Gizmos.DrawLine(new Vector2(mins.x - 12, mins.y - 7), new Vector2(mins.x - 12, maxes.y + 7));
     }
 }

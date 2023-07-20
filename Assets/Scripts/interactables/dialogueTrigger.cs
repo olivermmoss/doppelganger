@@ -8,6 +8,7 @@ public class dialogueTrigger : baseInteractable
     public SpriteRenderer[] spritesToChange;
     public Sprite[] sprites;
     public AudioClip[] clips;
+    public AudioClip music;
 
     public override void Activate()
     {

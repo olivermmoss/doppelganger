@@ -7,11 +7,13 @@ public class remorhazFireball : fireballController
     [SerializeField]
     private float rotSpeed;
     [SerializeField]
-    private int ballType;
-    private Vector2 lastPos;
+    //private int ballType;
+    //private Vector2 lastPos;
+    private float rotMultiplier = 1;
+    public float aimTime;
     public override void FixedUpdate()
     {
-        if(ballType == 1)
+        /*if(ballType == 1)
         {
             float angle = Mathf.Atan2(player.transform.position.y - transform.position.y, player.transform.position.x - transform.position.x) * Mathf.Rad2Deg - 90;
             Quaternion targetRotation = Quaternion.Euler(new Vector3(0, 0, angle));
@@ -31,7 +33,16 @@ public class remorhazFireball : fireballController
             float angle = Mathf.Atan2(transform.position.y - lastPos.y, transform.position.x - lastPos.x) * Mathf.Rad2Deg - 90;
             Quaternion targetRotation = Quaternion.Euler(new Vector3(0, 0, angle));
             transform.rotation = targetRotation;
-        }
+        }*/
+        if (rotMultiplier > 0f)
+            rotMultiplier -= Time.deltaTime * aimTime;
+        else if (rotMultiplier < 0f)
+            rotMultiplier = 0f;
+
+        float angle = Mathf.Atan2(player.transform.position.y - transform.position.y, player.transform.position.x - transform.position.x) * Mathf.Rad2Deg - 90;
+        Quaternion targetRotation = Quaternion.Euler(new Vector3(0, 0, angle));
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotSpeed * Time.deltaTime * rotMultiplier);
+        base.FixedUpdate();
 
         checkIfHit(Physics2D.OverlapCircle(transform.position+transform.up*0.25f, 0.75f,0));
     }

@@ -53,4 +53,10 @@ public class embeddedSpider : MonoBehaviour
         if(shooting)
             StartCoroutine(shootSpider());
     }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawWireSphere(gameObject.transform.position, aggroDistance);
+    }
 }

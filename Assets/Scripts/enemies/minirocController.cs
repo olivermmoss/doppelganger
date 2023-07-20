@@ -90,4 +90,10 @@ public class minirocController : baseEnemy
             transform.localScale = new Vector2(-1, 1);
         }
     }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawWireSphere(gameObject.transform.position, aggroDistance);
+    }
 }

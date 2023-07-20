@@ -27,6 +27,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -48,7 +49,7 @@ MonoBehaviour:
   stasisMaxes: {x: 0, y: 0}
   stasisMins: {x: 0, y: 0}
   gustavKilled: 0
-  itemsGotten: 01000000000000000000
+  itemsGotten: 01010000000000000000
   bossesKilled: 00000000000000000000
   cutscenesWatched: 00000000000000000000
   skullGate: 00000000000000000000
@@ -64,7 +65,7 @@ MonoBehaviour:
   player: {fileID: 0}
   playerDead: 0
   quickStart: 0
-  timeToTextScroll: 0.02
+  useSaveFile: 1
   wipeTIme: 0.5
   verticalWipe: 0
   wipePosDiff: 0

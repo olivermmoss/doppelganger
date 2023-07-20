@@ -199,6 +199,7 @@ public class shamblingMoundController : MonoBehaviour
     {
         dontDestroySave save = FindObjectOfType<dontDestroySave>();
         save.bossesKilled[2] = true;
+        save.SaveGame();
         var cam = GameObject.FindGameObjectWithTag("MainCamera");
         var camSys = cam.transform.parent.GetComponent<CameraSystem>();
         dead = true;
@@ -227,10 +228,6 @@ public class shamblingMoundController : MonoBehaviour
             yield return new WaitForSeconds(0.166666f);
         }
         endPlatforms.SetActive(true);
-        iTween.MoveBy(endPlatforms, iTween.Hash(
-                "y", 5f,
-                "time", 2f,
-                "easetype", "easeInOutSine"
-            ));
+        LeanTween.moveLocalY(endPlatforms, 0f, 2f).setEaseInOutSine();
     }
 }

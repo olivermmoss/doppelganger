@@ -13,6 +13,8 @@ public class parallaxWcam : MonoBehaviour
     public bool notMoving = true;
     public float speed;
     public PixelPerfectCamera ppc;
+    public bool stayInFrame = true;
+    public float centerX = 0;
 
     void Start()
     {
@@ -25,8 +27,8 @@ public class parallaxWcam : MonoBehaviour
  
     void OnWillRenderObject()
     {
-        float temp     = camSys.camPos.x * (1 - parallaxFactor);
-        float distance = camSys.camPos.x * parallaxFactor;
+        float temp     = (camSys.camPos.x - centerX) * (1 - parallaxFactor);
+        float distance = (camSys.camPos.x - centerX) * parallaxFactor;
         Vector3 newPosition;
 
         if (notMoving)
@@ -40,9 +42,12 @@ public class parallaxWcam : MonoBehaviour
         }
 
         transform.position = MatchCamRounding(newPosition, PixelsPerUnit);
- 
-        if (temp > startpos + (length / 2))      startpos += length;
-        else if (temp < startpos - (length / 2)) startpos -= length;
+
+        if (stayInFrame)
+        {
+            if (temp > startpos + (length / 2)) startpos += length;
+            else if (temp < startpos - (length / 2)) startpos -= length;
+        }
    }
  
     private Vector3 MatchCamRounding(Vector3 locationVector, float pixelsPerUnit)

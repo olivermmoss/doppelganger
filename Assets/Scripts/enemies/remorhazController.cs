@@ -92,6 +92,7 @@ public class remorhazController : MonoBehaviour
         dontDestroySave save = FindObjectOfType<dontDestroySave>();
         save.bossesKilled[1] = true;
         save.bossQuick = false;
+        save.SaveGame();
         hitRend.enabled = false;
         thisRend.enabled = true;
         dieSlashSource.Play();

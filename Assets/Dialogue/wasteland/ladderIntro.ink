@@ -1,4 +1,4 @@
-...and that's how I built this here bridge and ladder. #portrait:builderPoint #layout:left
+...and that's how I built this here bridge and ladder. #portrait:builderPoint #layout:left #event:5
 Thank you for your time, everyone.
 \*clap\* #portrait:aviatorTalk #layout:right
 \*clap\* #portrait:pinkFellowTalk
@@ -43,4 +43,4 @@ Well welcome to this side of the wasteland! #portrait:builderTalk
 We try to spruce it up as much as possible.
 We Don't Succeed. #portrait:pinkFellowTalk #layout:right
 I did not ask for comment! #portrait:builderTalk #layout:left
-Feel free to have a look around.
+Feel free to have a look around. #event:4

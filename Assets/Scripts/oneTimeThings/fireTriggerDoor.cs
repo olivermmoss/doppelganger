@@ -13,13 +13,7 @@ public class fireTriggerDoor : MonoBehaviour
         {
             fire.SetActive(true);
             gameObject.GetComponent<ParticleSystem>().Play();
-            iTween.MoveBy(door, iTween.Hash(
-                "y", -5.25f,
-                "time", 5f,
-                "easetype", "easeInOutSine",
-                "onComplete", "StopParticles",
-                "oncompletetarget", gameObject
-            ));
+            LeanTween.moveLocalY(door, 27.25f, 4f).setOnComplete(StopParticles).setEaseInOutSine();
         }
     }
 

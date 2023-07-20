@@ -13,8 +13,8 @@ public class changeSceneDoor : baseInteractable
 
     public override void Activate()
     {
-        print("change scene");
-        print(gameObject.name);
+        //print("change scene");
+        //print(gameObject.name);
 
         dontDestroySave save = GameObject.FindGameObjectWithTag("save").GetComponent<dontDestroySave>();
 

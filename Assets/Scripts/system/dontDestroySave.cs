@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
+using System;
 
 public class dontDestroySave : MonoBehaviour
 {
@@ -32,9 +36,7 @@ public class dontDestroySave : MonoBehaviour
 
     //debug variable
     public bool quickStart = false;
-
-    //settings
-    public float timeToTextScroll = 0.1f;
+    public bool useSaveFile;
 
     AsyncOperation asyncLoad;
     bool loadingScene = false;
@@ -43,7 +45,7 @@ public class dontDestroySave : MonoBehaviour
     public bool verticalWipe;
     public bool wipePosDiff;
 
-    void DoThings()
+    bool DoThings()
     {
         loadingScene = false;
 
@@ -62,6 +64,15 @@ public class dontDestroySave : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         player = GameObject.FindGameObjectWithTag("Player");
         string sceneName = SceneManager.GetActiveScene().name;
+
+        string rebinds = PlayerPrefs.GetString("rebinds");
+        if(!string.IsNullOrEmpty(rebinds))
+            player.GetComponent<PlayerMove>().actions.LoadBindingOverridesFromJson(rebinds);
+
+        if(sceneName == "MainMenu")
+        {
+            return true;
+        }
 
         if (itemsGotten[0])
         {
@@ -88,7 +99,7 @@ public class dontDestroySave : MonoBehaviour
             {
                 GameObject.Find("stasisTank").GetComponent<statisTankController>().Activate();
                 //StartCoroutine(GameObject.Find("stasisTank").GetComponent<statisTankController>().Respawn());
-                playerDead = true;
+                //playerDead = true;
             }
         }
         if(sceneName == "Wasteland1")
@@ -126,8 +137,9 @@ public class dontDestroySave : MonoBehaviour
             }
         }
         //death behavior
-        if (playerDead && stasisScene != null && stasisScene != "")
+        if (playerDead && stasisScene != null && (stasisScene != "" && stasisScene == sceneName) || (stasisScene == "" && sceneName == "DarkCastle"))
         {
+            //print(stasisCoords);
             //put player in right spot
             player.transform.position = stasisCoords;
             cam.xMin = stasisMins.x;
@@ -169,13 +181,18 @@ public class dontDestroySave : MonoBehaviour
             //player spawns where avatar is
             quickStart = false;
         }
+
+        return false;
     }
 
     void ChangedActiveScene(Scene current, Scene next)
     {
         if (current != next)
         {
-            DoThings();
+            if(DoThings())
+            {
+                return;
+            }
 
             player.GetComponent<playerHealth>().maxHealth = playerMaxHealth;
             if (playerHealth != -20 && !playerDead)
@@ -200,7 +217,12 @@ public class dontDestroySave : MonoBehaviour
     }
     void Awake()
     {
+        playerDead = true;
+
         SceneManager.activeSceneChanged += ChangedActiveScene;
+
+        if(useSaveFile)
+            LoadGame();
 
         //DoThings();
     }
@@ -211,10 +233,13 @@ public class dontDestroySave : MonoBehaviour
             return;
         loadingScene = true;
 
-        playerHealth = player.GetComponent<playerHealth>().health;
-        if(itemsGotten[1])
+        if (player != null)
         {
-            playerFireCharge = player.GetComponent<playerFire>().charge;
+            playerHealth = player.GetComponent<playerHealth>().health;
+            if (itemsGotten[1])
+            {
+                playerFireCharge = player.GetComponent<playerFire>().charge;
+            }
         }
 
         NewScenePos = _NewScenePos;
@@ -241,4 +266,104 @@ public class dontDestroySave : MonoBehaviour
             yield return null;
         }
     }
+
+    //https://www.red-gate.com/simple-talk/development/dotnet-development/saving-game-data-with-unity/
+    public void SaveGame()
+    {
+        BinaryFormatter bf = new BinaryFormatter();
+        FileStream file = File.Create(Application.persistentDataPath
+                     + "/savedata.dg");
+        SaveData data = new SaveData();
+
+        data.stasisScene = stasisScene;
+        data.stasisCoords = new float[2] {stasisCoords.x, stasisCoords.y};
+        data.stasisMaxes = new float[2] { stasisMaxes.x, stasisMaxes.y }; ;
+        data.stasisMins = new float[2] { stasisMins.x, stasisMins.y }; ;
+        data.gustavKilled = gustavKilled;
+        data.itemsGotten = itemsGotten;
+        data.bossesKilled = bossesKilled;
+        data.cutscenesWatched = cutscenesWatched;
+        data.skullGate = skullGate;
+        data.maxHealthIncreases = maxHealthIncreases;
+        data.playerMaxHealth = playerMaxHealth;
+
+        bf.Serialize(file, data);
+        file.Close();
+        Debug.Log("Game data saved!");
+
+        GameObject saveIcon = GameObject.FindGameObjectWithTag("saveIcon");
+        if (saveIcon == null)
+            return;
+        saveIcon.GetComponent<Animator>().SetTrigger("save");
+    }
+
+    public void LoadGame()
+    {
+        if (File.Exists(Application.persistentDataPath
+                       + "/savedata.dg"))
+        {
+            BinaryFormatter bf = new BinaryFormatter();
+            FileStream file =
+                       File.Open(Application.persistentDataPath
+                       + "/savedata.dg", FileMode.Open);
+            SaveData data = (SaveData)bf.Deserialize(file);
+            file.Close();
+
+            stasisScene = data.stasisScene;
+            stasisCoords = new Vector2(data.stasisCoords[0], data.stasisCoords[1]);
+            stasisMaxes = new Vector2(data.stasisMaxes[0], data.stasisMaxes[1]);
+            stasisMins = new Vector2(data.stasisMins[0], data.stasisMins[1]);
+            gustavKilled = data.gustavKilled;
+            itemsGotten = data.itemsGotten;
+            bossesKilled = data.bossesKilled;
+            cutscenesWatched = data.cutscenesWatched;
+            skullGate = data.skullGate;
+            maxHealthIncreases = data.maxHealthIncreases;
+            playerMaxHealth = data.playerMaxHealth;
+
+            Debug.Log("Game data loaded!");
+        }
+        else
+        {
+            Debug.LogWarning("There is no save data!");
+            stasisScene = "DarkCastle";
+            stasisCoords = new Vector2(-72f, -2f);
+            stasisMaxes = new Vector2(-55f, 0f);
+            stasisMins = new Vector2(-66f, 0f);
+            SaveGame();
+        }
+    }
+
+        public void ResetData()
+        {
+            if (File.Exists(Application.persistentDataPath
+                          + "/savedata.dg"))
+            {
+                File.Delete(Application.persistentDataPath
+                                  + "/savedata.dg");
+            
+                Debug.Log("Data reset complete!");
+            }
+            else
+                Debug.LogError("No save data to delete.");
+        }
+}
+
+[Serializable]
+class SaveData
+{
+    public string stasisScene;
+    //vector2s didn't work so it's float[]s
+    public float[] stasisCoords;
+    public float[] stasisMaxes;
+    public float[] stasisMins;
+
+    public bool gustavKilled;
+    public bool[] itemsGotten;
+    public bool[] bossesKilled;
+    public bool[] cutscenesWatched;
+    public bool[] skullGate;
+    public bool[] maxHealthIncreases;
+
+    public int playerMaxHealth = 3;
 }

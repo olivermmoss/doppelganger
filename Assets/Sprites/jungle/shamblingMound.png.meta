@@ -159,7 +159,7 @@ TextureImporter:
       213: 5710901690545246989
     second: shamblingMound_43
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -179,6 +179,8 @@ TextureImporter:
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -188,8 +190,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -210,10 +212,14 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
   applyGammaDecoding: 0
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -263,6 +269,18 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -282,7 +300,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: fb679c4afe96731d0800000000000000
-      internalID: -3371109318080760129
+      internalID: -5052242461161311156
       vertices: []
       indices: 
       edges: []
@@ -303,7 +321,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 0224666d5907630c0800000000000000
-      internalID: -4596362580835548640
+      internalID: 5372848456522578130
       vertices: []
       indices: 
       edges: []
@@ -324,7 +342,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 96b9eb387c330b0e0800000000000000
-      internalID: -2256246481310803095
+      internalID: 3922737320494378333
       vertices: []
       indices: 
       edges: []
@@ -345,7 +363,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: cc0abaa16be1cd3e0800000000000000
-      internalID: -2027711964743229236
+      internalID: -3241862661651262215
       vertices: []
       indices: 
       edges: []
@@ -450,7 +468,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 14023e6137f338990800000000000000
-      internalID: -7384989200419708863
+      internalID: -3742761178239425795
       vertices: []
       indices: 
       edges: []
@@ -471,7 +489,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: ea85f1c001b4ccbe0800000000000000
-      internalID: -1455706047252571986
+      internalID: 8708696863542153433
       vertices: []
       indices: 
       edges: []
@@ -780,6 +798,31 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      shamblingMound_0: -5052242461161311156
+      shamblingMound_1: 5372848456522578130
+      shamblingMound_10: -1254326434859213092
+      shamblingMound_11: -3742753152597900022
+      shamblingMound_12: 363866044614177481
+      shamblingMound_13: 3086423618814466001
+      shamblingMound_14: -2076176189243177213
+      shamblingMound_15: -5391922791997872408
+      shamblingMound_16: -7980766942782504892
+      shamblingMound_17: 8895994563363046038
+      shamblingMound_18: 4935066361630745466
+      shamblingMound_19: 1577064907663193878
+      shamblingMound_2: 3204044578148737463
+      shamblingMound_20: -6930324273193024848
+      shamblingMound_21: -8846750201800607629
+      shamblingMound_22: -4678564264633737635
+      shamblingMound_23: -8379558372391169457
+      shamblingMound_3: 3922737320494378333
+      shamblingMound_4: -3241862661651262215
+      shamblingMound_5: -6330546004258838239
+      shamblingMound_6: -3742761178239425795
+      shamblingMound_7: 8708696863542153433
+      shamblingMound_8: -6495983647280177725
+      shamblingMound_9: 2776310935407803551
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

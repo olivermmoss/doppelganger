@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class pauseMenuController : MonoBehaviour
 {
@@ -47,7 +48,9 @@ public class pauseMenuController : MonoBehaviour
     {
         Time.timeScale = 0;
         paused = true;
-        iTween.MoveTo(itemMenu, iTween.Hash(
+        LeanTween.moveLocalX(itemMenu, 272f, transTime).setEaseOutSine().setIgnoreTimeScale(true);
+        LeanTween.moveLocalY(gameObject, 0f, transTime).setEaseOutSine().setIgnoreTimeScale(true);
+        /*iTween.MoveTo(itemMenu, iTween.Hash(
                 "x", 272f,
                 "y", 0f,
                 "time", transTime,
@@ -61,9 +64,9 @@ public class pauseMenuController : MonoBehaviour
                 "easetype", "easeOutSine",
                 "islocal", true,
                 "ignoretimescale", true
-            ));
+            ));*/
         var save = FindObjectOfType<dontDestroySave>();
-        for(int i = 0; i < 3; i++)
+        for(int i = 0; i < 6; i++)
         {
             if(!save.itemsGotten[i])
             {
@@ -75,14 +78,18 @@ public class pauseMenuController : MonoBehaviour
             }
         }
         ///blarg
-        iTween.ValueTo(gameObject, iTween.Hash("from", panel.color.a, "to", 0.3f, "time", transTime, "onupdate", "UpdatePanelColor", "ignoretimescale", true));
+        LeanTween.value(gameObject, UpdatePanelColor, panel.color.a, 0.3f, transTime).setIgnoreTimeScale(true);
+        //iTween.ValueTo(gameObject, iTween.Hash("from", panel.color.a, "to", 0.3f, "time", transTime, "onupdate", "UpdatePanelColor", "ignoretimescale", true));
     }
 
     public void MenuUp()
     {
         Time.timeScale = 1;
         paused = false;
-        iTween.MoveTo(itemMenu, iTween.Hash(
+        LeanTween.moveLocalX(itemMenu, 640f, transTime).setEaseInSine().setIgnoreTimeScale(true);
+        LeanTween.moveLocalY(gameObject, 512f, transTime).setEaseInSine().setIgnoreTimeScale(true);
+        LeanTween.moveLocalY(optionsMenu, -512f, transTime).setEaseInSine().setIgnoreTimeScale(true);
+        /*iTween.MoveTo(itemMenu, iTween.Hash(
                 "x", 640f,
                 "y", 0f,
                 "time", transTime,
@@ -103,8 +110,9 @@ public class pauseMenuController : MonoBehaviour
                 "easetype", "easeInSine",
                 "islocal", true,
                 "ignoretimescale", true
-            ));
-        iTween.ValueTo(gameObject, iTween.Hash("from", panel.color.a, "to", 0f, "time", transTime, "onupdate", "UpdatePanelColor", "ignoretimescale", true));
+            ));*/
+        LeanTween.value(gameObject, UpdatePanelColor, panel.color.a, 0f, transTime).setIgnoreTimeScale(true);
+        //iTween.ValueTo(gameObject, iTween.Hash("from", panel.color.a, "to", 0f, "time", transTime, "onupdate", "UpdatePanelColor", "ignoretimescale", true));
     }
 
     void UpdatePanelColor(float alpha)
@@ -114,7 +122,10 @@ public class pauseMenuController : MonoBehaviour
 
     public void OptionsUp()
     {
-        iTween.MoveTo(itemMenu, iTween.Hash(
+        LeanTween.moveLocalX(itemMenu, 640f, transTime).setEaseInSine().setIgnoreTimeScale(true);
+        LeanTween.moveLocalY(gameObject, 512f, transTime).setEaseInSine().setIgnoreTimeScale(true);
+        LeanTween.moveLocalY(optionsMenu, 0f, transTime).setEaseOutSine().setIgnoreTimeScale(true);
+        /*iTween.MoveTo(itemMenu, iTween.Hash(
                 "x", 640f,
                 "y", 0f,
                 "time", transTime,
@@ -135,12 +146,15 @@ public class pauseMenuController : MonoBehaviour
                 "easetype", "easeOutSine",
                 "islocal", true,
                 "ignoretimescale", true
-            ));
+            ));*/
     }
 
     public void OptionsAway()
     {
-        iTween.MoveTo(itemMenu, iTween.Hash(
+        LeanTween.moveLocalX(itemMenu, 272f, transTime).setEaseOutSine().setIgnoreTimeScale(true);
+        LeanTween.moveLocalY(gameObject, 0f, transTime).setEaseOutSine().setIgnoreTimeScale(true);
+        LeanTween.moveLocalY(optionsMenu, -512f, transTime).setEaseOutSine().setIgnoreTimeScale(true);
+        /*iTween.MoveTo(itemMenu, iTween.Hash(
                 "x", 272f,
                 "y", 0f,
                 "time", transTime,
@@ -161,6 +175,12 @@ public class pauseMenuController : MonoBehaviour
                 "easetype", "easeOutSine",
                 "islocal", true,
                 "ignoretimescale", true
-            ));
+            ));*/
+    }
+
+    public void ToMainMenu()
+    {
+        //var save = GameObject.FindGameObjectWithTag("save").GetComponent<dontDestroySave>();
+        SceneManager.LoadScene("MainMenu");
     }
 }

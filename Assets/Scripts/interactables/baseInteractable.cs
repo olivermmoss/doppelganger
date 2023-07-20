@@ -14,17 +14,12 @@ public class baseInteractable : MonoBehaviour
 
     private InputActionAsset actions;
 
-    private void Awake()
-    {
-        iTween.Init(eButton);
-    }
-
     public virtual void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         eButton.SetActive(true);
         
-        iTween.FadeTo(eButton, 0f, 0.001f);
+        LeanTween.alpha(eButton, 0f, 0.001f);
 
         actions = player.GetComponent<PlayerMove>().actions;
         actions.FindActionMap("gameplay").FindAction("interact").performed += SubActivate;
@@ -36,8 +31,8 @@ public class baseInteractable : MonoBehaviour
         if (other.gameObject.CompareTag("Player") && !used)
         {
             active = true;
-            iTween.Stop(eButton);
-            iTween.FadeTo(eButton, 1f, 0.25f);
+            LeanTween.cancel(eButton);
+            LeanTween.alpha(eButton, 1f, 0.25f);
         }
     }
 
@@ -46,8 +41,8 @@ public class baseInteractable : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             active = false;
-            iTween.Stop(eButton);
-            iTween.FadeTo(eButton, 0f, 0.25f);
+            LeanTween.cancel(eButton);
+            LeanTween.alpha(eButton, 0f, 0.25f);
         }
     }
 
@@ -62,6 +57,10 @@ public class baseInteractable : MonoBehaviour
         if (active && !player.GetComponent<playerHealth>().dead)
         {
             Activate();
+        }
+        if(used)
+        {
+            OnTriggerExit2D(player.GetComponent<Collider2D>());
         }
     }
 

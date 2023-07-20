@@ -11,6 +11,8 @@ TagManager:
   - fireball
   - healthUI
   - screenWipe
+  - fps
+  - saveIcon
   layers:
   - Default
   - TransparentFX

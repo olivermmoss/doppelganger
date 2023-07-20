@@ -202,6 +202,14 @@ public class dialogueManager : MonoBehaviour
                             thisTrig.gameObject.GetComponent<doorController>().enabled = true;
                             thisTrig.gameObject.GetComponent<dialogueTrigger>().enabled = false;
                         }
+                        else if (int.Parse(tagValue) == 4)
+                        {
+                            GameObject.FindGameObjectWithTag("save").GetComponent<dontDestroySave>().cutscenesWatched[0] = true;
+                        }
+                        else if (int.Parse(tagValue) == 5)
+                        {
+                            FindObjectOfType<dontDestroyMusic>().ChangeBGM(thisTrig.music);
+                        }
                     }
                     break;
                 default:
@@ -213,11 +221,13 @@ public class dialogueManager : MonoBehaviour
 
     IEnumerator TypeSentence(string sentence)
     {
+        float scrollTime = PlayerPrefs.GetFloat("scrollTime");
+
         dialogueText.text = "";
         foreach(char letter in sentence.ToCharArray())
         {
             dialogueText.text += letter;
-            yield return new WaitForSeconds(save.timeToTextScroll);
+            yield return new WaitForSeconds(scrollTime);
         }
         typing = false;
     }

@@ -4,7 +4,7 @@ yes.. it's got to be around here somewhere... #layout:right #portrait:curatorGon
 maybe if I just ring this bell... #layout:left #portrait:DGTalk #sfx:0
 DING! #layout:right #portrait:curatorGone #sfx:1
 Ah, hello traveler. #portrait:curatorTalk #spritechange:0 #sfx:2
-Welcome to Placeholder Mountain's gift sshop. #sfx:2
+Welcome to Periwinkle Mountain's gift sshop. #sfx:2
 thank you? #layout:left #portrait:DGTalk #sfx:0
 We have all the gear to climb, and more. #layout:right #portrait:curatorTalk #sfx:2
 What are you looking for today? #sfx:2

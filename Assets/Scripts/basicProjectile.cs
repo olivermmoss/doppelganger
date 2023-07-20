@@ -18,7 +18,10 @@ public class basicProjectile : MonoBehaviour
     }
     public virtual void FixedUpdate()
     {
-        gameObject.transform.Translate(speed * Vector2.up);
+        if (speed != 0)
+        {
+            gameObject.transform.Translate(speed * Vector2.up);
+        }
         if (Time.time - deathTime >= timer)
         {
             Destroy(gameObject);

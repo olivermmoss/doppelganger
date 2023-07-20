@@ -31,7 +31,7 @@ public class dynamite : MonoBehaviour
         rend.sprite = sprites[3];
         yield return new WaitForSeconds(0.5f);
         gameObject.GetComponent<AudioSource>().Play();
-        iTween.ValueTo(gameObject, iTween.Hash("from", 1f, "to", 0f, "time", 1f, "onupdate", "UpdatePanelColor"));
+        LeanTween.value(gameObject, UpdatePanelColor, 1f, 0f, 1f);
         GetComponent<SpriteRenderer>().enabled = false;
         GameObject.FindGameObjectWithTag("save").GetComponent<dontDestroySave>().cutscenesWatched[2] = true;
         var boxes = GetComponents<BoxCollider2D>();

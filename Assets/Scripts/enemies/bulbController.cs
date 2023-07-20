@@ -89,4 +89,10 @@ public class bulbController : baseEnemy
     {
         rb.AddForce((Vector2)(gameObject.transform.position - player.transform.position) * 100);
     }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawWireSphere(gameObject.transform.position, 30f);
+    }
 }

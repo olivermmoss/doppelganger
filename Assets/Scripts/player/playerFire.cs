@@ -16,6 +16,7 @@ public class playerFire : MonoBehaviour
     public float draining = 0;
     public GameObject firePrefab;
     public AudioSource readySource;
+    public bool canFire = true;
 
     private InputActionAsset actions;
 
@@ -30,7 +31,7 @@ public class playerFire : MonoBehaviour
 
     private void ShootFire(InputAction.CallbackContext context = new InputAction.CallbackContext())
     {
-        if(charge >= 1)
+        if(charge >= 1 && canFire)
         {
             Instantiate(firePrefab, gameObject.transform.position, Quaternion.Euler(new Vector3(0, 0, gameObject.transform.localScale.x > 0 ? 270 : 90)));
             charge = 0;

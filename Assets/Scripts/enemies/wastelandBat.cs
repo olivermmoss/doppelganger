@@ -51,4 +51,10 @@ public class wastelandBat : baseEnemy
         speed = -speed;
         hitTime = Time.time + 0.3f;
     }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawWireSphere(gameObject.transform.position, aggroDistance);
+    }
 }

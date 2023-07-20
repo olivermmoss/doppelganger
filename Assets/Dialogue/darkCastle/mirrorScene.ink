@@ -23,3 +23,7 @@ no? #portrait:DGSad #layout:right
 no. #portrait:DGTalk #layout:left
 you're supposed to go do evil.
 it's LITERALLY why you were made!!! #portrait:DGYell
+you know what? #portrait:DGTalk #layout:right
+I don't have to talk to you-
+uh, me- #portrait:DGConfused
+again. #portrait:DGTalk

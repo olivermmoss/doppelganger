@@ -9,6 +9,7 @@ public class tinySpiderController : baseEnemy
     private float timer;
 
     public Sprite webbed;
+    private bool justTurned = false;
 
     public override void Start()
     {
@@ -32,12 +33,14 @@ public class tinySpiderController : baseEnemy
     {
         if (other.gameObject == player && !dead)
             KillPlayer();
+        //become platform
         if (other.gameObject.layer == 8 && !dead)
         {
             dead = true;
             gameObject.GetComponent<SpriteRenderer>().sprite = webbed;
             gameObject.GetComponent<Rigidbody2D>().isKinematic = true;
-            other.gameObject.layer = 0;
+            justTurned = true;
+            //gameObject.layer = 0;
         }
         if (other.gameObject.CompareTag("ground") && !dead)
         {
@@ -68,6 +71,10 @@ public class tinySpiderController : baseEnemy
                 Destroy(gameObject);
             }
         }
-        
+        if(justTurned)
+        {
+            gameObject.layer = 0;
+            justTurned = false;
+        }
     }
 }

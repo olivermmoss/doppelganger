@@ -29,7 +29,8 @@ public class shamblingMoundIntro : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        StartCoroutine(AttackAhh());
+        if(collision.collider.CompareTag("Player"))
+            StartCoroutine(AttackAhh());
     }
 
     private IEnumerator AttackAhh()

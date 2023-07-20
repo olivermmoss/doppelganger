@@ -18,8 +18,10 @@ public class swordShrine : MonoBehaviour
         gameObject.GetComponent<SpriteRenderer>().sprite = newSprite;
         gameObject.GetComponent<dialogueTrigger>().inkJson = newJson;
         GameObject.FindGameObjectWithTag("save").GetComponent<dontDestroySave>().itemsGotten[itemToGet] = true;
+        if(yayOrNay)
+            GameObject.FindGameObjectWithTag("save").GetComponent<dontDestroySave>().SaveGame();
 
-        if(yayOrNay && gameObject.GetComponent<AudioSource>() != null)
+        if (yayOrNay && gameObject.GetComponent<AudioSource>() != null)
             gameObject.GetComponent<AudioSource>().Play();
 
         switch(item)
@@ -28,7 +30,7 @@ public class swordShrine : MonoBehaviour
                 GameObject.FindGameObjectWithTag("Player").GetComponent<playerAttack>().enabled = true;
                 break;
             case "fireball":
-                print(yayOrNay);
+                //print(yayOrNay);
 
                 GameObject.FindGameObjectWithTag("Player").GetComponent<playerFire>().enabled = true;
                 activateThis.gameObject.SetActive(true);
