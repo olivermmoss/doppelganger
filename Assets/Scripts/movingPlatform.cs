@@ -9,10 +9,12 @@ public class movingPlatform : MonoBehaviour
     public float speed;
     private bool moveHands;
     public Transform[] hands;
+    private Transform player;
 
     // Start is called before the first frame update
     void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player").transform;
         SuperMoveToNext();
         moveHands = hands.Length != 0;
     }
@@ -29,7 +31,7 @@ public class movingPlatform : MonoBehaviour
 
         LeanTween.moveLocal(gameObject, points[curPoint], dist * speed).setOnComplete(SuperMoveToNext);
 
-        if (moveHands)
+        if (moveHands && player.position.x - transform.position.x > -20 && player.position.x - transform.position.x < 20)
             MoveHands(true);
     }
 
@@ -45,7 +47,7 @@ public class movingPlatform : MonoBehaviour
 
     private void Update()
     {
-        if(moveHands)
+        if(moveHands && player.position.x - transform.position.x > -20 && player.position.x - transform.position.x < 20)
             MoveHands(false);
     }
 
@@ -60,6 +62,7 @@ public class movingPlatform : MonoBehaviour
 
                 //LeanTween.pause(hand.gameObject);
                 Vector2 targetPos = (Vector2)transform.position + moveDir * (i * (0.75f) + 1f) + new Vector2(-moveDir.y, moveDir.x) * 0.125f * (2 * i - 1);
+                LeanTween.cancel(hand.gameObject);
                 LeanTween.move(hand.gameObject, targetPos, 0.1f);
             }
 
@@ -74,6 +77,7 @@ public class movingPlatform : MonoBehaviour
             {
                 Vector2 moveDir = (points[curPoint] - (Vector2)transform.position).normalized;
                 Vector2 targetPos = (Vector2)transform.position + moveDir * 1.75f + new Vector2(-moveDir.y, moveDir.x) * 0.125f * (2 * i - 1);
+                LeanTween.cancel(hand.gameObject);
                 LeanTween.move(hand.gameObject, targetPos, 0.1f);
             }
         }

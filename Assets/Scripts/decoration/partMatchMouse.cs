@@ -20,6 +20,7 @@ public class partMatchMouse : MonoBehaviour
         cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         var save = GameObject.FindGameObjectWithTag("save").GetComponent<dontDestroySave>();
         var sr = GetComponent<SpriteRenderer>();
+        print(save.stasisScene);
         print(new String(save.stasisScene.Where(Char.IsLetter).ToArray()));
         switch(new String(save.stasisScene.Where(Char.IsLetter).ToArray()))
         {
@@ -42,6 +43,9 @@ public class partMatchMouse : MonoBehaviour
                 sr.sprite = sprites[4];
                 break;
             case "ShroomCaves":
+                sr.sprite = sprites[5];
+                break;
+            case "ShroomBoss":
                 sr.sprite = sprites[5];
                 break;
             default:

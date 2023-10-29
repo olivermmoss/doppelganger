@@ -6,14 +6,22 @@ public class fireTriggerDoor : MonoBehaviour
 {
     public GameObject fire;
     public GameObject door;
+    public float finalDoorY = 27.25f;
+    public fireTriggerDoor deactivateThis;
+    public bool doIt = true;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if(collision.collider.CompareTag("fireball"))
         {
             fire.SetActive(true);
-            gameObject.GetComponent<ParticleSystem>().Play();
-            LeanTween.moveLocalY(door, 27.25f, 4f).setOnComplete(StopParticles).setEaseInOutSine();
+            if (doIt)
+            {
+                gameObject.GetComponent<ParticleSystem>().Play();
+                LeanTween.moveLocalY(door, finalDoorY, 4f).setOnComplete(StopParticles).setEaseInOutSine();
+            }
+            if (deactivateThis != null)
+                deactivateThis.doIt = false;
         }
     }
 

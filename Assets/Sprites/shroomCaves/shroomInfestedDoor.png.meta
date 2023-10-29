@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 34fd87a74cff6e44e9b62231f341d2a8
+guid: 5fa7649060b0e654dace01a1a97f6b10
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -129,85 +129,64 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: jumpSwitchShroom_0
+      name: shroomInfestedDoor_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 24
-        height: 16
-      alignment: 9
-      pivot: {x: 0.5416667, y: 0.25}
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 537fb11f465ee6c45bc02d9eb025aa1a
-      internalID: 856380447
+      spriteID: 996acf414814c2d479006933d283d398
+      internalID: 751375167
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: jumpSwitchShroom_1
+      name: shroomInfestedDoor_1
       rect:
         serializedVersion: 2
         x: 24
         y: 0
         width: 24
-        height: 16
-      alignment: 9
-      pivot: {x: 0.5416667, y: 0.25}
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ba067c8b2785ddf4885973eced58c26e
-      internalID: 1480019875
+      spriteID: 3a1ba6ca0aad3674d9ddd3e261364dc7
+      internalID: -1815848200
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: jumpSwitchShroom_2
+      name: shroomInfestedDoor_2
       rect:
         serializedVersion: 2
         x: 48
         y: 0
         width: 24
-        height: 16
-      alignment: 9
-      pivot: {x: 0.5416667, y: 0.25}
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8d373aafc5d551f428aebedd6f43e696
-      internalID: 1646961448
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: jumpSwitchShroom_3
-      rect:
-        serializedVersion: 2
-        x: 72
-        y: 0
-        width: 24
-        height: 16
-      alignment: 9
-      pivot: {x: 0.5416667, y: 0.25}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 1cbbf73b6da20d14aabd55bf8a2252db
-      internalID: 474351705
+      spriteID: 975b5171a784a60409496662d4d6c10e
+      internalID: -1632755286
       vertices: []
       indices: 
       edges: []
@@ -223,10 +202,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      jumpSwitchShroom_0: 856380447
-      jumpSwitchShroom_1: 1480019875
-      jumpSwitchShroom_2: 1646961448
-      jumpSwitchShroom_3: 474351705
+      shroomInfestedDoor_0: 751375167
+      shroomInfestedDoor_1: -1815848200
+      shroomInfestedDoor_2: -1632755286
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

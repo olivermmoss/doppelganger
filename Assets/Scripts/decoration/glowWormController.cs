@@ -31,4 +31,10 @@ public class glowWormController : MonoBehaviour
             gameObject.transform.localEulerAngles = new Vector3(0, 0, (transform.localEulerAngles.z + 180) % 360);
         }
     }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = yvals[0] < yvals[1] ? Color.white : Color.red;
+        Gizmos.DrawLine(new Vector3(transform.position.x, yvals[0]), new Vector3(transform.position.x, yvals[1]));
+    }
 }

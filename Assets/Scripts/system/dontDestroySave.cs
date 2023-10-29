@@ -251,6 +251,7 @@ public class dontDestroySave : MonoBehaviour
 
     IEnumerator LoadAsyncScene(string doorExit)
     {
+        print(doorExit);
         wipeTimer = Time.time;
         asyncLoad = SceneManager.LoadSceneAsync(doorExit, LoadSceneMode.Single);
         asyncLoad.allowSceneActivation = false;

@@ -27,7 +27,7 @@ public class jumpSwitchShrooms : MonoBehaviour
 
         if (inWall && isMoving)
         {
-            LeanTween.pause(gameObject);
+            LeanTween.cancel(gameObject);
         }
     }
 
@@ -39,13 +39,15 @@ public class jumpSwitchShrooms : MonoBehaviour
         if (anim != null)
             StopCoroutine(anim);
 
+        sr.sortingOrder = inWall ? 0 : 1;
+
         anim = StartCoroutine(swapAnim());
 
         if(isMoving)
         {
             if(inWall)
             {
-                LeanTween.pause(gameObject);
+                LeanTween.cancel(gameObject);
                 foreach(Transform hand in movPlat.hands)
                 {
                     hand.gameObject.GetComponent<SpriteRenderer>().color = Color.gray;
