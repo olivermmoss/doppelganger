@@ -50769,6 +50769,7 @@ MonoBehaviour:
   spritesToChange: []
   sprites: []
   clips: []
+  music: {fileID: 0}
 --- !u!61 &448038334
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -50908,6 +50909,7 @@ MonoBehaviour:
   spritesToChange: []
   sprites: []
   clips: []
+  music: {fileID: 0}
 --- !u!61 &470409715
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -51108,6 +51110,9 @@ MonoBehaviour:
   condition: cutscenesWatched
   index: 1
   newText: {fileID: 4900000, guid: e08d2791646ad244bb97763b56b362f3, type: 3}
+  enableThis: {fileID: 0}
+  disableThis: {fileID: 0}
+  newSprite: {fileID: 0}
 --- !u!1001 &493015919
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -52166,6 +52171,8 @@ MonoBehaviour:
   notMoving: 1
   speed: 0
   ppc: {fileID: 0}
+  stayInFrame: 1
+  centerX: 0
 --- !u!1001 &835697898
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -66846,6 +66853,8 @@ MonoBehaviour:
   notMoving: 1
   speed: 0
   ppc: {fileID: 0}
+  stayInFrame: 1
+  centerX: 0
 --- !u!199 &1578433507
 ParticleSystemRenderer:
   serializedVersion: 6

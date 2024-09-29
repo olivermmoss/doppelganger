@@ -15,7 +15,7 @@ public class jumpSwitchShrooms : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMove>().jumpDelegate += SwapInOutWall;
+        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMove>().jumpDelegate += this.SwapInOutWall;
         sr = GetComponent<SpriteRenderer>();
         bc = GetComponent<BoxCollider2D>();
 
@@ -69,5 +69,12 @@ public class jumpSwitchShrooms : MonoBehaviour
         sr.sprite = sprites[1];
         yield return new WaitForSeconds(0.083333f);
         sr.sprite = sprites[inWall ? 2 : 0];
+    }
+
+    void OnDestroy()
+    {
+        print("destructed");
+        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMove>().jumpDelegate -= this.SwapInOutWall;
+        print("destructed 2");
     }
 }

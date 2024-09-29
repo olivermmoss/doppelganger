@@ -18404,6 +18404,7 @@ MonoBehaviour:
   spritesToChange: []
   sprites: []
   clips: []
+  music: {fileID: 0}
 --- !u!212 &141426126
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -19041,6 +19042,7 @@ MonoBehaviour:
   spritesToChange: []
   sprites: []
   clips: []
+  music: {fileID: 0}
 --- !u!212 &372596621
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -19129,6 +19131,7 @@ GameObject:
   - component: {fileID: 519420033}
   - component: {fileID: 519420030}
   - component: {fileID: 519420034}
+  - component: {fileID: 519420035}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -19265,6 +19268,14 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+--- !u!81 &519420035
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
 --- !u!1001 &593955495
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22622,6 +22633,8 @@ MonoBehaviour:
   notMoving: 1
   speed: 0
   ppc: {fileID: 0}
+  stayInFrame: 1
+  centerX: 0
 --- !u!1 &847711064
 GameObject:
   m_ObjectHideFlags: 0
@@ -29455,6 +29468,8 @@ MonoBehaviour:
   notMoving: 1
   speed: 0
   ppc: {fileID: 0}
+  stayInFrame: 1
+  centerX: 0
 --- !u!199 &1578433507
 ParticleSystemRenderer:
   serializedVersion: 6
