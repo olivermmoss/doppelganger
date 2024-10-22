@@ -21,6 +21,7 @@ public class maxHealthUp : baseInteractable
 
         save.maxHealthIncreases[healthUpIndex] = true;
         save.playerMaxHealth++;
+        save.SaveGame();
         var health = GameObject.FindGameObjectWithTag("Player").GetComponent<playerHealth>();
         health.maxHealth++;
         health.health = health.maxHealth;

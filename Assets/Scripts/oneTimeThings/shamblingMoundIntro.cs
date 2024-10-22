@@ -12,9 +12,12 @@ public class shamblingMoundIntro : MonoBehaviour
     public GameObject bridge;
     public Sprite[] bridgeSprites;
     public GameObject sunflower;
+    public AudioClip music;
+    private dontDestroyMusic theAM;
 
     private void Start()
     {
+        theAM = FindObjectOfType<dontDestroyMusic>();
         dontDestroySave save = FindObjectOfType<dontDestroySave>();
         if(save.bossesKilled[2])
         {
@@ -35,6 +38,7 @@ public class shamblingMoundIntro : MonoBehaviour
 
     private IEnumerator AttackAhh()
     {
+        theAM.StopBGM();
         float twelfth = 1f / 12f;
         GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMove>().canMove = false;
         var cam = GameObject.FindGameObjectWithTag("MainCamera").transform.parent.GetComponent<CameraSystem>();
@@ -61,6 +65,7 @@ public class shamblingMoundIntro : MonoBehaviour
         beast.transform.GetChild(1).gameObject.SetActive(true);
         yield return new WaitForSeconds(0.333f);
         beast.GetComponent<shamblingMoundController>().enabled = true;
+        theAM.ChangeBGM(music);
         GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMove>().canMove = true;
         Destroy(bridge);
         Destroy(gameObject);
